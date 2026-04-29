@@ -15,10 +15,10 @@ const Footer = () => {
         </div>
 
         <div className="flex space-x-6">
-          {['Home', 'About Me', 'Coaching', 'Contact'].map((item, idx) => (
+          {['Home', 'About Me', 'Speeches', 'Contact'].map((item, idx) => (
             <Link 
               key={idx}
-              to={item === 'Home' ? 'hero' : item === 'About Me' ? 'about' : item === 'Coaching' ? 'services' : 'contact'}
+              to={item === 'Home' ? 'hero' : item === 'About Me' ? 'about' : item === 'Speeches' ? 'projects' : 'contact'}
               smooth={true} 
               duration={500}
               className="cursor-pointer text-sm text-[#8a6a4c] transition-colors hover:text-[#9a6a3b]"

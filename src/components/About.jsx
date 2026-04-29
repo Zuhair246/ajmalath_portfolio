@@ -16,6 +16,13 @@ const About = () => {
   return (
     <section id="about" className="bg-[#fbf4ea] py-24">
       <div className="container mx-auto px-6 md:px-12">
+        <div className="mb-10 lg:hidden">
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[#9a6a3b]">About Me</h2>
+          <h3 className="font-serif text-3xl font-bold text-[#2a1d14]">
+            Ajmalath Zaitooniyya
+          </h3>
+        </div>
+
         <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Image Side */}
           <motion.div 
@@ -43,8 +50,8 @@ const About = () => {
             transition={{ duration: 0.7 }}
             className="w-full lg:w-1/2"
           >
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[#9a6a3b]">About Me</h2>
-            <h3 className="mb-6 font-serif text-3xl font-bold text-[#2a1d14] md:text-5xl">
+            <h2 className="mb-2 hidden text-sm font-semibold uppercase tracking-wider text-[#9a6a3b] lg:block">About Me</h2>
+            <h3 className="mb-6 hidden font-serif text-3xl font-bold text-[#2a1d14] md:text-5xl lg:block">
               Ajmalath Zaitooniyya
             </h3>
             <p className="mb-8 text-lg leading-relaxed text-[#5e4633]">
