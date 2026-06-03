@@ -1,14 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
-import { ArrowRight } from 'lucide-react';
 import heroImage from '../assets/Ajmalath Zaitooniyya.jpeg';
 
 const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[95vh] items-center justify-center overflow-hidden pt-16 pb-8 md:pt-20"
+      className="relative flex min-h-[95vh] items-center justify-center overflow-hidden pt-16 pb-8 md:pt-32 lg:pt-40"
     >
       <div className="absolute inset-0 bg-[#f5ecdd]" />
       <img
@@ -19,19 +18,19 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-[#f8f0e4]/24 via-[#f2e7d6]/12 to-transparent lg:from-[#f8f0e4]/38 lg:via-[#f2e7d6]/10 lg:to-transparent" />
 
       <div className="container relative z-10 mx-auto px-6 md:px-12">
-        <div className="mt-8 max-w-3xl text-center md:mt-0 md:text-left">
+        <div className="mt-8 min-w-0 max-w-3xl text-center md:mt-0 md:w-[52%] md:max-w-[38rem] md:text-left lg:w-[44%] xl:w-[42%]">
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6 font-serif text-4xl font-bold leading-[1.1] text-[#edd2b7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] md:text-[#1f1711] md:drop-shadow-none md:text-5xl lg:text-6xl"
+            className="mb-6 max-w-full [overflow-wrap:anywhere] font-serif text-4xl font-bold leading-[1.08] text-[#edd2b7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] md:text-5xl md:text-[#1f1711] md:drop-shadow-none lg:text-[clamp(3rem,4vw,3.75rem)]"
           >
-            Not your typical psychologist
-            <br className="md:hidden" />
-            <br className="hidden md:block" />
+            Not your typical <br />
+            psychologist
+            <br />
             <span className="bg-gradient-to-r from-[#6f4324] via-[#8f5a30] to-[#c78a4f] bg-clip-text text-transparent">
-              Not your typical <br className="hidden md:block" />
+              Not your typical <br />
               coach
             </span>
           </motion.h1>
