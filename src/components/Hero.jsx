@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
-import heroImage from '../assets/Ajmalath Zaitooniyya.jpeg';
+import heroImage from '../assets/about.jpeg';
 
 const Hero = () => {
   return (

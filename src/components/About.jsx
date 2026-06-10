@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
-import about from '../assets/about.jpeg'
+import about from '../assets/Ajmalath Zaitooniyya.jpeg'
 
 const features = [
   'Transpersonal Psychologist',
