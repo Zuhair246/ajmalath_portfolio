@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
-import heroImage from '../assets/about.jpeg';
+import heroImage from '../assets/about.png';
 
 const Hero = () => {
   return (
@@ -15,6 +15,8 @@ const Hero = () => {
         alt="Ajmalath Zaitooniyya"
         className="absolute inset-0 h-full w-full object-cover object-center lg:object-contain lg:object-right"
       />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#f5ecdd_0%,rgba(245,236,221,0)_16%,rgba(245,236,221,0)_84%,#f5ecdd_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,#f5ecdd_0%,rgba(245,236,221,0)_16%,rgba(245,236,221,0)_84%,#f5ecdd_100%)]" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#f8f0e4]/24 via-[#f2e7d6]/12 to-transparent lg:from-[#f8f0e4]/38 lg:via-[#f2e7d6]/10 lg:to-transparent" />
 
       <div className="container relative z-10 mx-auto px-6 md:px-12">
