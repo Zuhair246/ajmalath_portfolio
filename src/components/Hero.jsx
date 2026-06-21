@@ -1,7 +1,107 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion as Motion } from 'framer-motion';
 import { Link } from 'react-scroll';
-import heroImage from '../assets/about.png';
+import * as THREE from 'three';
+import heroImage from '../assets/about.jpeg';
+
+const AnimatedTextLine = ({ children, phase = 0 }) => {
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const textNode = textRef.current;
+    if (!textNode) return undefined;
+
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: 'low-power',
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(640, 128, false);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uPhase: { value: phase },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position.xy, 0.0, 1.0);
+        }
+      `,
+      fragmentShader: `
+        precision mediump float;
+
+        uniform float uTime;
+        uniform float uPhase;
+        varying vec2 vUv;
+
+        void main() {
+          vec2 uv = vUv;
+          float stream = uv.x * 3.4 - uTime * 0.38 + uPhase;
+          float ripple = sin(stream * 6.2831 + sin(uv.y * 7.0 + uTime * 0.7)) * 0.5 + 0.5;
+          float pulse = sin((uv.x + uv.y) * 11.0 - uTime * 1.15 + uPhase) * 0.5 + 0.5;
+
+          vec3 deep = vec3(0.22, 0.13, 0.08);
+          vec3 copper = vec3(0.69, 0.39, 0.18);
+          vec3 honey = vec3(0.96, 0.68, 0.35);
+          vec3 olive = vec3(0.34, 0.38, 0.20);
+
+          vec3 color = mix(deep, copper, smoothstep(0.12, 0.9, ripple));
+          color = mix(color, honey, smoothstep(0.64, 1.0, pulse) * 0.55);
+          color = mix(color, olive, smoothstep(0.18, 0.92, sin(stream * 2.1) * 0.5 + 0.5) * 0.2);
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+    });
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    scene.add(mesh);
+
+    let frameId;
+    let lastPaint = 0;
+    const paint = (time) => {
+      material.uniforms.uTime.value = time * 0.001;
+      renderer.render(scene, camera);
+
+      if (time - lastPaint > 48) {
+        textNode.style.backgroundImage = `url(${renderer.domElement.toDataURL('image/webp', 0.78)})`;
+        lastPaint = time;
+      }
+
+      frameId = requestAnimationFrame(paint);
+    };
+
+    frameId = requestAnimationFrame(paint);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      mesh.geometry.dispose();
+      material.dispose();
+      renderer.dispose();
+    };
+  }, [phase]);
+
+  return (
+    <span
+      ref={textRef}
+      className="inline bg-clip-text text-transparent md:inline-block"
+      style={{
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 const Hero = () => {
   return (
@@ -22,33 +122,55 @@ const Hero = () => {
       <div className="container relative z-10 mx-auto px-6 md:px-12">
         <div className="mt-8 min-w-0 max-w-3xl text-center md:mt-0 md:w-[52%] md:max-w-[38rem] md:text-left lg:w-[44%] xl:w-[42%]">
 
-          <motion.h1
+          <Motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6 max-w-full [overflow-wrap:anywhere] font-serif text-4xl font-bold leading-[1.08] text-[#edd2b7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] md:text-5xl md:text-[#1f1711] md:drop-shadow-none lg:text-[clamp(3rem,4vw,3.75rem)]"
+            className="mb-6 max-w-full [overflow-wrap:anywhere] font-serif text-4xl font-bold leading-[1.18] text-[#1f1711] md:text-5xl md:leading-[1.08] lg:text-[clamp(3rem,4vw,3.75rem)]"
           >
-            Not your typical <br />
-            psychologist
-            <br />
-            <span className="bg-gradient-to-r from-[#6f4324] via-[#8f5a30] to-[#c78a4f] bg-clip-text text-transparent">
-              Not your typical <br />
-              coach
+            <span className="inline-block">
+              Not your typical
             </span>
-          </motion.h1>
+            <br />
+            <span className="inline-block">
+              psychologist
+            </span>
+            <br />
+            <span className="inline-block">
+              <span className="bg-gradient-to-r from-[#6f4324] via-[#8f5a30] to-[#c78a4f] bg-clip-text text-transparent">
+                Not your typical
+              </span>
+            </span>
+            <br />
+            <span className="inline-block">
+              <span className="bg-gradient-to-r from-[#6f4324] via-[#8f5a30] to-[#c78a4f] bg-clip-text text-transparent">
+                coach
+              </span>
+            </span>
+          </Motion.h1>
 
-          <motion.p
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto mb-10 max-w-2xl text-lg font-medium text-[#fff7ed] drop-shadow-md md:text-[#2f2218] md:drop-shadow-none md:mx-0 md:text-xl"
+            className="mx-auto mb-10 max-w-2xl text-lg font-medium leading-8 text-[#2f2218] md:mx-0 md:text-xl"
           >
-            This isn&apos;t a perfect little polished corner of the internet.
-            <br className="hidden md:block" /> This is my space, real and unfiltered,
-            <br className="hidden md:block" /> built for people tired of pretending everything is fine.
-          </motion.p>
+            <p>
+              <AnimatedTextLine phase={0.1}>
+                This isn&apos;t a perfect little polished corner of the internet.
+              </AnimatedTextLine>
+              <br className="hidden md:block" />
+              <AnimatedTextLine phase={1.8}>
+                This is my space, real and unfiltered,
+              </AnimatedTextLine>
+              <br className="hidden md:block" />
+              <AnimatedTextLine phase={3.2}>
+                built for people tired of pretending everything is fine.
+              </AnimatedTextLine>
+            </p>
+          </Motion.div>
 
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -73,7 +195,7 @@ const Hero = () => {
             >
               Read More
             </Link>
-          </motion.div>
+          </Motion.div>
         </div>
       </div>
     </section>
